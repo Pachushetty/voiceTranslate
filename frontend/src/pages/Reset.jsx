@@ -53,6 +53,7 @@ export function Forgot() {
   );
 }
 
+
 export function ResetPassword() {
   const [q] = useSearchParams();
   const [p, setP] = useState("");
@@ -63,11 +64,19 @@ export function ResetPassword() {
   const [showPwd, setShowPwd] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
+  const go = async (ev) => {
     ev.preventDefault();
     setE("");
-    if (p !== c) return setE("Passwords do not match. Please re-enter matching passwords.");
+
+    if (p !== c) {
+      return setE("Passwords do not match. Please re-enter matching passwords.");
+    }
+
     try {
-      await api.post("/auth/reset", { token: q.get("token") || "", password: p });
+      await api.post("/auth/reset", {
+        token: q.get("token") || "",
+        password: p
+      });
       setDone(true);
     } catch (x) {
       setE(err(x));
@@ -82,8 +91,10 @@ export function ResetPassword() {
           <span>Back to home</span>
         </Link>
       </nav>
+
       <form className="auth-card" onSubmit={go}>
         <h2>Choose a new password</h2>
+
         {done ? (
           <div className="status-success" role="status">
             <span>✓</span> Password changed. <Link to="/login">Log in</Link>
@@ -96,28 +107,42 @@ export function ResetPassword() {
                 type={showPwd ? "text" : "password"}
                 minLength="8"
                 required
+                value={p}
                 onChange={x => setP(x.target.value)}
               />
-              <span className="toggle-pwd" onClick={() => setShowPwd(!showPwd)}>👁</span>
+              <span
+                className="toggle-pwd"
+                onClick={() => setShowPwd(!showPwd)}
+              >👁</span>
             </label>
+
             <label className="form-label">
               <span>Confirm password</span>
               <input
                 type={showConfirm ? "text" : "password"}
                 required
+                value={c}
                 onChange={x => setC(x.target.value)}
               />
-              <span className="toggle-pwd" onClick={() => setShowConfirm(!showConfirm)}>👁</span>
+              <span
+                className="toggle-pwd"
+                onClick={() => setShowConfirm(!showConfirm)}
+              >👁</span>
             </label>
+
             {e && (
               <div className="error" role="alert">
                 <span className="error-icon" aria-hidden="true">⚠️</span>
                 <span>{e}</span>
               </div>
             )}
-            <button type="submit" className="btn">Change password</button>
+
+            <button type="submit" className="btn">
+              Change password
+            </button>
           </>
         )}
+
         <div className="auth-links">
           <p><Link to="/login">Back to log in</Link></p>
           <p><Link to="/">← Back to home</Link></p>
