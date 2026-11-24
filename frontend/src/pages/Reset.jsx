@@ -60,7 +60,9 @@ export function ResetPassword() {
   const [e, setE] = useState("");
   const [done, setDone] = useState(false);
 
-  const go = async ev => {
+  const [showPwd, setShowPwd] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
     ev.preventDefault();
     setE("");
     if (p !== c) return setE("Passwords do not match. Please re-enter matching passwords.");
@@ -91,19 +93,21 @@ export function ResetPassword() {
             <label className="form-label">
               <span>New password (8+ characters)</span>
               <input
-                type="password"
+                type={showPwd ? "text" : "password"}
                 minLength="8"
                 required
                 onChange={x => setP(x.target.value)}
               />
+              <span className="toggle-pwd" onClick={() => setShowPwd(!showPwd)}>👁</span>
             </label>
             <label className="form-label">
               <span>Confirm password</span>
               <input
-                type="password"
+                type={showConfirm ? "text" : "password"}
                 required
                 onChange={x => setC(x.target.value)}
               />
+              <span className="toggle-pwd" onClick={() => setShowConfirm(!showConfirm)}>👁</span>
             </label>
             {e && (
               <div className="error" role="alert">
