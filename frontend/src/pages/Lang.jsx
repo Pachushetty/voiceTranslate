@@ -73,7 +73,13 @@ export const Result = ({ r, onAgain }) => {
 
         {r.audio_url && (
           <>
-            <audio controls className="result-audio" src={audioSrc(r.audio_url)} aria-label="Audio pronunciation" />
+            <audio
+              key={r.audio_url}
+              controls
+              className="result-audio"
+              src={audioSrc(r.audio_url)}
+              aria-label="Audio pronunciation"
+            />
             <button
               type="button"
               className="btn ghost btn-sm"

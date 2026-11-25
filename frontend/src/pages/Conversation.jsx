@@ -160,7 +160,12 @@ export default function Conversation() {
           <p className="bubble-orig">{m.original_text}</p>
           <p className="bubble-trans"><b>{m.translated_text}</b></p>
           {m.audio_url && (
-            <audio controls src={audioSrc(m.audio_url)} aria-label={`Spoken translation for Person ${m.who}`} />
+            <audio
+              key={m.audio_url}
+              controls
+              src={audioSrc(m.audio_url)}
+              aria-label={`Spoken translation for Person ${m.who}`}
+            />
           )}
         </div>
       ))}
